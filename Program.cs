@@ -231,7 +231,7 @@ namespace Assignment1_Spring2020
                 }
                 else
                 {
-                    Console.WriteLine(false);
+                    Console.WriteLine(false); //write false
                 }
             }
             catch
