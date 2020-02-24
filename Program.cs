@@ -1,243 +1,369 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-namespace Assignment1_Spring2020
+namespace Assignment2_CT_Spring2020
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int n = 5;
-            Console.WriteLine("Executing the 1st method: \n");
-            Console.WriteLine("printing the Pattern: \n");
-            PrintPattern(n);
+            Console.WriteLine("Question 1");
+            int[] l1 = new int[] { 5, 6, 6, 12 };
+            int target = 9;
+            int[] r = TargetRange(l1, target);
+           for (int x = 0; x <= r.Length - 1; x++)
+            {
+                if (x != r.Length - 1)
+                    Console.Write(r[x]);
+                else
+                    Console.Write(r[x]);
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine("Question 2");
+            string s = "University of South Florida";
+            string rs = StringReverse(s);
+            Console.WriteLine(rs);
+            Console.WriteLine();
+            Console.WriteLine("Question 3");
+            int[] l2 = new int[] { 2, 2, 3, 5, 6 };
+            int sum = MinimumSum(l2);
+            Console.WriteLine(sum);
+            Console.WriteLine();
+            Console.WriteLine("Question 4");
+            string s2 = "Dell";
+            string sortedString = FreqSort(s2);
+            Console.WriteLine(sortedString);
+            Console.WriteLine("Question 5-Part 1");
+            int[] nums1 = { 1, 2, 2, 1 };
+            int[] nums2 = { 2, 2 };
+            int[] intersect1 = Intersect1(nums1, nums2);
+            Console.WriteLine("Part 1- Intersection of two arrays is: ");
+             DisplayArray(intersect1);
+            Console.WriteLine("\n");
+            Console.WriteLine("Question 5-Part 2");
+            int[] intersect2 = Intersect2(nums1, nums2);
+            Console.WriteLine("Part 2- Intersection of two arrays is: ");
+            DisplayArray(intersect2);
+            Console.WriteLine();
+            Console.WriteLine("Question 6");
+            char[] arr = new char[] { 'a', 'g', 'h', 'a' };
+            int k = 3;
+            Console.WriteLine(ContainsDuplicate(arr, k));
+            Console.WriteLine();
+            Console.WriteLine("Question 7");
+            int rodLength = 4;
+            int priceProduct = GoldRod(rodLength);
+            Console.WriteLine(priceProduct);
             Console.WriteLine();
 
-            int n2 = 6;
-            Console.WriteLine("Executing the 2rd method: \n");
-            Console.WriteLine("printing the series for a given input: \n");
-            PrintSeries(n2);
+            Console.WriteLine("Question 8");
+            string[] userDict = new string[] { "rocky", "usf", "hello", "apple" };
+            string keyword = "hhlo";
+            Console.WriteLine(DictSearch(userDict, keyword));
             Console.WriteLine();
-
-            string s = "11:15:35PM";
-            string t = UsfTime(s);
-            Console.Write("\nExecuting the 3rd method: \n");
-            Console.Write(t);
-
-            int n3 = 110;
-            int k = 11;
-            Console.WriteLine();
-            Console.WriteLine("\nExecuting the 4th method: \n");
-            Console.Write("printing the pattern: \n");
-            UsfNumbers(n3, k);
-
-            string[] words = new string[] { "abcd", "dcba", "lls", "s", "sssll" };
-            Console.WriteLine();
-            Console.WriteLine("Executing the 5th method: \n");
-            Console.WriteLine("indices of the words which are palindromes: \n");
-            PalindromePairs(words);
-
-            int n4 = 15;
-            Console.WriteLine();
-            Console.Write("Executing the 6th method: \n");
-            Console.Write("Printing the moves: \n");
-            Stones(n4);
+             
         }
-        //first
-        private static void PrintPattern(int n)
+        private static void DisplayArray(int[] a)
+        {
+            for (int j = 0; j <= a.Length - 1; j++)
+            {
+                Console.WriteLine(a[j]);
+            }
+        }
+       
+            
+
+public static int[] TargetRange(int[] l1, int t)
         {
             try
             {
-                if (n >= 0)
+                int[] w = new int[l1.Length]; //array to store the results
+                int[] y = new int[] { };
+                w[0] = -1;
+                for (int j = 0; j <= l1.Length - 1; j++) 
                 {
-                    for (int j = n; j >= 1; j--) // Running the for loop from j=n until j become zero
+                    if (l1[j] == t) 
                     {
-                        Console.Write(j + " "); //Printing the value of j
+                        w[0] = j;
+                        Array.Resize(ref y, y.Length + 1);
+                        y[y.Length - 1] = j; 
                     }
-                    Console.WriteLine(" "); 
-                    PrintPattern(n - 1); //calling the function recurrsively with value of n less than one
-                }
-                else 
-                {
-                    //do nothing
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Exception Occured while computing printPattern");
-            }
-        }
-        //second
-        private static void PrintSeries(int n2)
-        {
-            try
-            {
-                int i, j = 1, k = 1;
-                for (i = 1; i <= n2; i++) // For loop to run from 1 to the input number.
-                {
-                    Console.Write(j + " "); // will print the value of j
-                    k = k + 1; // this will add 1 to the value of k.
-                    j = j + k; // the temp variable is initialized with 1, and adding k to j.
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Exception Occured while computing printSeries");
-            }
-        }
-        //Third
-        public static string UsfTime(string s)
-        {
-            try
-            {
-                int U_time, earth_time, difference, U_hour, S_minutes, F_seconds;
-                int  k= 60*45; //seconds for one hour on usf time
-                string[] array_1 = s.Split(':'); //splitting the input string by delimiter ':'
-                string str = new String(array_1[2].Where(Char.IsDigit).ToArray()); //separating the PM in the string
-                string time;
-                if (s.Contains("PM")) //block will execute if the string contains PM
-                {
-                    U_time = (Convert.ToInt32(array_1[0]) + 12) * 60 * 45 + (Convert.ToInt32(array_1[1])) * 45 + (Convert.ToInt32(str)); //converting the U_time into seconds
-                    earth_time = (Convert.ToInt32(array_1[0]) + 12) * 60 * 60 + (Convert.ToInt32(array_1[1])) * 60 + Convert.ToInt32(str); //converting the earth time into seconds
-                    difference = earth_time - U_time; //calculating the difference in seconds between earth and usf times
-                    U_hour = (Convert.ToInt32(array_1[0]) + 12) + (difference / k);// adding the hours to earth time to get usf time
-                    S_minutes = (Convert.ToInt32(array_1[1])) + ((difference % k) / 45);//adding the minutes to earth time to get usf time
-                    F_seconds = (Convert.ToInt32(str)) + ((difference % k) % 45);//adding the seconds to earth time to get usf time
-
-                    if (S_minutes>=60) //if minutes value is greater than 60 it will be converted to hour
+                    if ( j== (l1.Length - 1) && w[0] == -1)
                     {
-                        U_hour = U_hour + (S_minutes / 60);
-                        S_minutes = S_minutes % 60;
-                        time = U_hour + " : " + S_minutes + " : " + F_seconds;
+                        Array.Resize(ref y, 2); //resizing x to store the elements
+                        y[0] = -1;
+                        y[1] = -1;
+                        break;
+                    }
+                }
+                return y;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static string StringReverse(string s)
+        {
+            try
+            {
+                String s1 = ""; 
+                String s2 = "";
+                String s3 = ""; 
+                for (int i = 0; i <= s.Length - 1; i++) //logic to split the strig
+                {
+                    if (s[i] != ' ')
+                    {
+                        s1 = s1 + s[i];
+                        if (i != s.Length - 1)
+                            continue;
+                    }
+                    s2 = s1 ;
+                    s1 = "";
+                    for (int k = s2.Length - 1; k >= 0; k--)
+                    {
+                        s3 = s3 + s2[k];
+                    }
+                }
+                return s3;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static int MinimumSum(int[] l2)
+        {
+
+            int sum = 0;
+            try
+            {
+                for (int j = 0; j <= l2.Length - 1; j++) //calclulating the sum to print
+                {
+                    sum = sum + l2[j];
+                    if (j != l2.Length - 1 && l2[j + 1] == l2[j])
+                    {
+                        l2[j + 1] = l2[j + 1] + 1;
+                    }
+                }
+                return sum;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public static string FreqSort(string s2)
+        {
+            Dictionary<char, int> dict_new = new Dictionary<char, int>();
+            string s = "";
+            int k1 = 0;
+            try
+            {
+                for (int j = 0; j <= s2.Length - 1; j++)
+                {
+                    if (dict_new.ContainsKey(s2[j]))
+                    {
+                        k1 = k1 + 1; 
+                        dict_new[s2[j]] = k1;
                     }
                     else
                     {
-                        time = U_hour + " : " + S_minutes + " : " + F_seconds;
+                        dict_new.Add(s2[j], k1);
                     }
-                   
-
                 }
-                else //for AM calculations
+                foreach (KeyValuePair<char, int> x in dict_new.OrderByDescending(key => key.Value))
                 {
-                    U_time = (Convert.ToInt32(array_1[0])) * 60 * 45 + (Convert.ToInt32(array_1[1])) * 45 + Convert.ToInt32(str);
-                    earth_time = (Convert.ToInt32(array_1[0])) * 60 * 60 + (Convert.ToInt32(array_1[1])) * 60 + Convert.ToInt32(str);
-                    difference = earth_time - U_time;
-                    U_hour = (Convert.ToInt32(array_1[0])) + (difference / k);
-                    S_minutes = (Convert.ToInt32(array_1[1])) + ((difference % k) / 45);
-                    F_seconds = (Convert.ToInt32(str)) + ((difference % k) % 45);
-                    if(S_minutes >= 60)
+                    for (int y = 0; y <= x.Value; y++)
                     {
-                        U_hour = U_hour + (S_minutes / 60);
-                        S_minutes = S_minutes % 60;
-                        time = U_hour + " : " + S_minutes + " : " + F_seconds;
-                    }
-                    else
-                    {
-                        time = U_hour + " : " + S_minutes + " : " + F_seconds;
+                        string s3 = x.Key.ToString();
+                        s = s + s3;
                     }
                 }
-                return time;
+                return s;
             }
-            catch
+            catch (Exception)
             {
-                Console.WriteLine("Exception Occured while computing UsfTime");
+                throw;
             }
-            return null;
         }
-        //Fourth
-        public static void UsfNumbers(int n3, int k)
+        public static int[] Intersect1(int[] nums1, int[] nums2)
         {
             try
             {
-                
-                for (int i = 1; i <= n3; i++) //incrementing for loop from one to input number
+                Array.Sort(nums1);
+                Array.Sort(nums2);
+                int j = 0;
+                int len1 = nums1.Length;
+                int len2 = nums2.Length;
+                List<int> list_new = new List<int>();
+                for (int i = 0; i <= nums1.Length - 1; i++)
                 {
-                    
-                    if (i % k != 0) //checking if the number is multiple of k
+                    if (nums1[i] == nums2[j])
                     {
-                        if (i % 3 == 0 && i % 5 == 0)
-                            Console.Write(" " + "US");
-                        else if (i % 5 == 0 && i % 7 == 0)
-                            Console.Write(" " + "SF");
-                        else if (i % 3 == 0 && i % 7 == 0)
-                            Console.Write(" " + "UF");
-                        else if (i % 3 == 0)
-                            Console.Write(" " + "U");
-                        else if (i % 5 == 0)
-                            Console.Write(" " + "S");
-                        else if (i % 7 == 0)
-                            Console.Write(" " + "F");
-                        else
-                            Console.Write(" " + i);
+                        list_new.Add((nums2[j]));
+                        j++;
                     }
-                    else //if the number is multiple of k then jump to next line
-                        Console.Write(" " + i + "\n");
                 }
+                int[] x = list_new.ToArray();
+                return x;
             }
             catch
             {
-                Console.WriteLine("Exception occured while computing UsfNumbers()");
+                throw;
             }
         }
-        //Fifth
-        public static void PalindromePairs(string[] words)
+        public static int[] Intersect2(int[] nums1, int[] nums2)
         {
             try
             {
-                string k;
-                for (int a = 0; a < words.Length; a++)//the two for loops are to be used for conccatenating
+                int[] y = new int[] { };
+                Dictionary<int, int> dict = new Dictionary<int, int>();
+                int j = 0;
+                for (int i = 0; i <= nums1.Length - 1; i++)
                 {
-                    for (int b = 0; b < words.Length; b++)
+                    dict.Add(i, nums1[i]);
+                    foreach (KeyValuePair<int, int> k in dict)
                     {
-                        if (a != b) // avoiding concatenating with the word itself
+                        if (j != nums2.Length && dict.ContainsValue(nums2[j]))
                         {
-                            k = words[a] + words[b];//concatenating the elements
-                            string reversed_string = ""; 
-                            for (int j = k.Length - 1; j >= 0; j--) // running for loop from reverse
-                            {
-                                reversed_string= reversed_string +k[j];// to store the reversed string
-                            }
-                            if (reversed_string == k)// checking if the reversed string equals the string and return the indices
-                            {
-                                Console.WriteLine(a +" "+ b);
-                            }
+                            Array.Resize(ref y, y.Length + 1);
+                            y[j] = nums2[j];
+                            j++;
+                        }
+                        else if (j == nums2.Length)
+                        {
+                            break;
                         }
                     }
                 }
+                return y;
             }
             catch
             {
-                Console.WriteLine("Exception occured while computing PalindromePairs()");
+                throw;
             }
         }
-        //Sixth
-        public static void Stones(int n4)
+public static bool ContainsDuplicate(char[] arr, int k)
         {
             try
             {
                 
-                int k = n4 / 4; //dividing by 4 and saving quotient
-                int j = k * 4; //step to calculate the number of moves
-                int n = (j / 2) + 1; //step to calculate the total number of moves
-                int move1;
-                if (n4 % 4 != 0) //if the number is divisible by 4, there is no chance of winning
+                Dictionary<int, char> dict_new = new Dictionary<int, char>();
+                bool b;
+                for (int j = 0; j <= arr.Length - 1; j++)
                 {
-                    move1 = n4 % 4;
-                    Console.WriteLine(move1); //first move will be the reminder of number divided by 4
-                    for (int i = 1; i <= n / 2; i++) //for loop from 1 to half of the total number of moves
+                    dict_new.Add(j, arr[j]);
+                }
+                var lookup = dict_new.ToLookup(x => x.Value, x => x.Key).Where(x => x.Count() > 1); //creating a lookup object to hold index
+                foreach (var item in lookup)
+                {
+                    var keys = item.Aggregate("", (s, v) => s + ", " + v);
+                    int difference = keys.ElementAt(5) - keys.ElementAt(2);
+                    if (k <= difference)
                     {
-                        Console.WriteLine('3'); //with 3 as his move in all chances we can compute the set moves for winning
-                        Console.WriteLine('1'); //our moves
+                        b = true;
+                        return b;
                     }
+                    
                 }
-                else
-                {
-                    Console.WriteLine(false); //write false
-                }
+                return false;
             }
-            catch
+            catch (Exception)
             {
-                Console.WriteLine("Exception occured while computing moves in the Stones()");
+                throw;
             }
         }
+        public static int GoldRod(int rodLength)
+        {
+            try
+            {
+                
+                    if (rodLength == 2)
+                        return 1;
+                    else if (rodLength == 3)
+                        return 2;
+                    else if (rodLength == 4)
+                        return 4;
+                    else if (rodLength == 5)
+                        return 6;
+                    else if (rodLength == 6)
+                        return 9;
+                    else
+                        return 3 * GoldRod(rodLength - 3);
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static bool DictSearch(string[] userDict, string keyword)
+          {
+             try
+             {
+                int count = 0;
+                bool a;
+                int[] len = new int[userDict.Length];
+
+                for (int i = 0; i <= userDict.Length - 1; i++)
+                {
+                    len[i] = userDict[i].Length;
+                }
+                if (len.Contains(keyword.Length))
+                {
+                    for (int j = 0; j <= userDict.Length - 1; j++)
+                    {
+                        if (count == keyword.Length - 1)
+                        {
+                            a = true;
+                            return a;
+                 
+                        }
+                        if (userDict[j].Length == keyword.Length)
+                        {
+                            for (int k = 0; k <= keyword.Length - 1; k++)
+                            {
+                                count = 0;
+                                foreach (Char ch in userDict[j])
+                                {
+                                    if (ch == keyword[k])
+                                    {
+                                        count += 1;
+                                    }
+                                    k++;
+                                    continue;
+                                }
+                            }
+                        }
+                        if (j == userDict.Length - 1 && count != keyword.Length - 1)
+                        {
+                            a = false;
+                            return a;
+                          
+                        }
+                    }
+                }
+                else if (!len.Contains(keyword.Length))
+                {
+                    a = false;
+                    return a;
+                }
+            
+    
+    
+}
+    catch (Exception)
+    {
+      throw;
+    }
+   return default;
+}
+          
     }
 }
